@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 
 // Import Routes
 const authRoutes = require("./routes/auth");
+const categoryRoutes = require("./routes/categories");
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/categories", categoryRoutes);
+
 
 // Connect Database
 connectDB();
