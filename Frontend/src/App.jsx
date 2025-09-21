@@ -6,6 +6,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/donations" element={<DonationsPage />} />
       </Routes>
     </Router>
   );
