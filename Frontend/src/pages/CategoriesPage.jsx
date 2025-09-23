@@ -1,31 +1,46 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-function CategoriesPage() {
+const CategoriesPage = () => {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    // later fetch from backend, dummy data for now
-    const dummy = [
-      { _id: "1", name: "Clothes", description: "Donate old and new clothes" },
-      { _id: "2", name: "Food", description: "Donate food items" },
-      { _id: "3", name: "Books", description: "Donate educational books" },
-    ];
-    setCategories(dummy);
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/categories");
+        if (!res.ok) throw new Error("Failed to fetch categories");
+        const data = await res.json();
+        setCategories(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
   }, []);
 
+  if (loading) return <p className="text-center">Loading categories...</p>;
+  if (error) return <p className="text-center text-red-500">{error}</p>;
+
   return (
-    <div>
-      <h2>Donation Categories</h2>
-      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-4">Categories</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {categories.map((cat) => (
-          <div key={cat._id} style={{ border: "1px solid gray", padding: "10px", borderRadius: "5px" }}>
-            <h3>{cat.name}</h3>
-            <p>{cat.description}</p>
+          <div
+            key={cat._id}
+            className="border p-4 rounded shadow hover:shadow-lg"
+          >
+            <h3 className="text-lg font-semibold">{cat.name}</h3>
+            <p className="text-sm text-gray-600">{cat.description}</p>
           </div>
         ))}
       </div>
     </div>
   );
-}
+};
 
 export default CategoriesPage;
