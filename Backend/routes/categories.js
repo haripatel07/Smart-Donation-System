@@ -2,48 +2,34 @@ const express = require("express");
 const router = express.Router();
 const Category = require("../models/Category");
 
-// Create Category (Admin)
+// Add category with validation
 router.post("/", async (req, res) => {
   try {
     const { name, description } = req.body;
+
+    if (!name || !description) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    // Check if category already exists
+    const existing = await Category.findOne({ name });
+    if (existing) {
+      return res.status(400).json({ error: "Category already exists" });
+    }
+
     const category = new Category({ name, description });
     await category.save();
-    res.json({ message: "Category created", category });
+    res.json({ message: "Category added successfully", category });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Get All Categories
+// Get all categories
 router.get("/", async (req, res) => {
   try {
     const categories = await Category.find();
     res.json(categories);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Update Category
-router.put("/:id", async (req, res) => {
-  try {
-    const { name, description } = req.body;
-    const category = await Category.findByIdAndUpdate(
-      req.params.id,
-      { name, description },
-      { new: true }
-    );
-    res.json({ message: "Category updated", category });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Delete Category
-router.delete("/:id", async (req, res) => {
-  try {
-    await Category.findByIdAndDelete(req.params.id);
-    res.json({ message: "Category deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
