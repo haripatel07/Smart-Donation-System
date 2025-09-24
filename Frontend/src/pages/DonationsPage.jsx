@@ -4,13 +4,9 @@ function DonationsPage() {
   const [donations, setDonations] = useState([]);
 
   useEffect(() => {
-    // later will fetch from backend
-    const dummy = [
-      { _id: "1", donorName: "Hari", item: "Clothes", category: "Clothes", status: "Pending" },
-      { _id: "2", donorName: "Dev", item: "Food Packets", category: "Food", status: "Approved" },
-      { _id: "3", donorName: "Het", item: "Books", category: "Books", status: "Rejected" },
-    ];
-    setDonations(dummy);
+  fetch("http://localhost:5000/api/donations")
+    .then(res => res.json())
+    .then(data => setDonations(data));
   }, []);
 
   return (
