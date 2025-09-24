@@ -3,16 +3,16 @@ const router = express.Router();
 const User = require("../models/User");
 const Donation = require("../models/Donation");
 const Category = require("../models/Category");
+const adminAuth = require("../middleware/adminAuth");
+
+// Protect all admin routes
+router.use(adminAuth);
 
 router.get("/stats", async (req, res) => {
-  try {
-    const totalUsers = await User.countDocuments();
-    const totalDonations = await Donation.countDocuments();
-    const totalCategories = await Category.countDocuments();
-    res.json({ totalUsers, totalDonations, totalCategories });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const users = await User.countDocuments();
+  const donations = await Donation.countDocuments();
+  const categories = await Category.countDocuments();
+  res.json({ users, donations, categories });
 });
 
 module.exports = router;
