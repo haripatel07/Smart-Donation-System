@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from "react";
+import "../styles/CategoriesPage.css";
 
 const CategoriesPage = () => {
   const [categories, setCategories] = useState([]);
@@ -22,20 +24,20 @@ const CategoriesPage = () => {
     fetchCategories();
   }, []);
 
-  if (loading) return <p className="text-center">Loading categories...</p>;
-  if (error) return <p className="text-center text-red-500">{error}</p>;
+  if (loading) return <p className="categories-center">Loading categories...</p>;
+  if (error) return <p className="categories-center categories-error">{error}</p>;
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Categories</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="categories-container">
+      <h2 className="categories-title">Categories</h2>
+      <div className="categories-grid">
         {categories.map((cat) => (
           <div
             key={cat._id}
-            className="border p-4 rounded shadow hover:shadow-lg"
+            className="category-card"
           >
-            <h3 className="text-lg font-semibold">{cat.name}</h3>
-            <p className="text-sm text-gray-600">{cat.description}</p>
+            <h3 className="category-name">{cat.name}</h3>
+            <p className="category-desc">{cat.description}</p>
           </div>
         ))}
       </div>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../styles/DonationsPage.css";
 
 function DonationsPage() {
   const [donations, setDonations] = useState([]);

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../styles/ProfilePage.css";
 
 function ProfilePage() {
   const [profile, setProfile] = useState({ name: "", email: "", phone: "", address: "" });

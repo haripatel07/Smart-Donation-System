@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 const JWT_SECRET = "smart_donation_secret";
 
-export const authMiddleware = (req, res, next) => {
+const authMiddleware = (req, res, next) => {
   const token = req.header("Authorization");
   if (!token) return res.status(401).json({ msg: "No token, authorization denied" });
 
@@ -13,3 +13,5 @@ export const authMiddleware = (req, res, next) => {
     res.status(401).json({ msg: "Invalid token" });
   }
 };
+
+module.exports = authMiddleware;

@@ -1,13 +1,19 @@
 import React from "react";
+import "../styles/Navbar.css";
 import { Link } from "react-router-dom";
-function Navbar({ onLogout }) {
+function Navbar({ isAuthenticated, onLogout }) {
   return (
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/categories">Categories</Link>
-      <Link to="/donations">Donations</Link>
-      <Link to="/my-donations">My Donations</Link>
-      <button onClick={onLogout}>Logout</button>
+    <nav className="navbar">
+      <div className="navbar-logo"><Link to="/">Smart Donation</Link></div>
+      <div className="navbar-links">
+        <Link className="navbar-link" to="/categories">Categories</Link>
+        <Link className="navbar-link" to="/donations">Donations</Link>
+        {isAuthenticated && <Link className="navbar-link" to="/my-donations">My Donations</Link>}
+        {isAuthenticated && <Link className="navbar-link" to="/profile">Profile</Link>}
+        {!isAuthenticated && <Link className="navbar-link" to="/login">Login</Link>}
+        {!isAuthenticated && <Link className="navbar-link" to="/signup">Signup</Link>}
+        {isAuthenticated && <button className="navbar-logout" onClick={onLogout}>Logout</button>}
+      </div>
     </nav>
   );
 }
