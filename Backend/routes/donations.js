@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Donation = require("../models/Donation");
-
+const adminAuth = require("../middleware/adminAuth");
 // Create Donation
 router.post("/", async (req, res) => {
   try {
@@ -56,6 +56,25 @@ router.delete("/:id", async (req, res) => {
     res.json({ message: "Donation deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// Admin: Approve/Reject donation
+router.patch("/:id/status", adminAuth, async (req, res) => {
+  const { status } = req.body; // status should be "approved" or "rejected"
+  if (!["approved", "rejected"].includes(status)) {
+    return res.status(400).json({ message: "Invalid status" });
+  }
+  try {
+    const donation = await Donation.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+    if (!donation) return res.status(404).json({ message: "Donation not found" });
+    res.json(donation);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
   }
 });
 
