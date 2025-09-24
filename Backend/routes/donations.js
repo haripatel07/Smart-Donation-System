@@ -24,6 +24,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get Donations by User
+router.get("/user/:userId", async (req, res) => {
+  try {
+    const donations = await Donation.find({ userId: req.params.userId });
+    res.json(donations);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Update Donation Status
 router.put("/:id", async (req, res) => {
   try {
