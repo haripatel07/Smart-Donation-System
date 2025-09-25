@@ -1,7 +1,11 @@
 const express = require("express");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const connectDB = require("./config/db");
+
+// Load environment variables
+require("dotenv").config();
 
 // Import Routes
 const authRoutes = require("./routes/auth");
@@ -16,6 +20,7 @@ const app = express();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
+app.use(cors());
 
 // Routes
 app.use("/api/auth", authRoutes);

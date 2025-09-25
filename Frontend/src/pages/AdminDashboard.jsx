@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "../styles/AdminDashboard.css";
 
 function AdminDashboard() {
   const [stats, setStats] = useState({ users: 0, donations: 0, categories: 0 });
@@ -12,11 +13,28 @@ function AdminDashboard() {
   }, []);
 
   return (
-    <div>
-      <h2>Admin Dashboard</h2>
-      <p>Total Users: {stats.users}</p>
-      <p>Total Donations: {stats.donations}</p>
-      <p>Total Categories: {stats.categories}</p>
+    <div className="dashboard-container">
+      <h2 className="dashboard-title">Admin Dashboard</h2>
+
+      <div className="stats-grid">
+        <div className="stat-card users">
+          <div className="stat-icon">👥</div>
+          <div className="stat-number">{stats.users}</div>
+          <div className="stat-label">Total Users</div>
+        </div>
+
+        <div className="stat-card donations">
+          <div className="stat-icon">📦</div>
+          <div className="stat-number">{stats.donations}</div>
+          <div className="stat-label">Total Donations</div>
+        </div>
+
+        <div className="stat-card categories">
+          <div className="stat-icon">📂</div>
+          <div className="stat-number">{stats.categories}</div>
+          <div className="stat-label">Total Categories</div>
+        </div>
+      </div>
     </div>
   );
 }

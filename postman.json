@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "Smart Donation System API",
+    "_postman_id": "smart-donation-system-2025",
+    "description": "Collection to test Smart Donation System backend APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "User Signup",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"test123\"\n}"
+        },
+        "url": { "raw": "http://localhost:5000/api/auth/signup", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "auth", "signup"] }
+      }
+    },
+    {
+      "name": "User Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"testuser@example.com\",\n  \"password\": \"test123\"\n}"
+        },
+        "url": { "raw": "http://localhost:5000/api/auth/login", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "auth", "login"] }
+      }
+    },
+    {
+      "name": "Get All Categories",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": { "raw": "http://localhost:5000/api/categories", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "categories"] }
+      }
+    },
+    {
+      "name": "Add Category (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Clothes\",\n  \"description\": \"Used and new clothes\"\n}"
+        },
+        "url": { "raw": "http://localhost:5000/api/categories", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "categories"] }
+      }
+    },
+    {
+      "name": "Get All Donations",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+        ],
+        "url": { "raw": "http://localhost:5000/api/donations", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "donations"] }
+      }
+    },
+    {
+      "name": "Create Donation",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{user_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"item\": \"Blanket\",\n  \"category\": \"{{category_id}}\",\n  \"quantity\": 2\n}"
+        },
+        "url": { "raw": "http://localhost:5000/api/donations", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "donations"] }
+      }
+    },
+    {
+      "name": "Approve/Reject Donation (Admin)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"Approved\"\n}"
+        },
+        "url": { "raw": "http://localhost:5000/api/donations/{{donation_id}}", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "donations", "{{donation_id}}"] }
+      }
+    },
+    {
+      "name": "Delete Donation (Admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{admin_token}}" }
+        ],
+        "url": { "raw": "http://localhost:5000/api/donations/{{donation_id}}", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "donations", "{{donation_id}}"] }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "admin_token", "value": "" },
+    { "key": "user_token", "value": "" },
+    { "key": "category_id", "value": "" },
+    { "key": "donation_id", "value": "" }
+  ]
+}

@@ -1,8 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const JWT_SECRET = "smart_donation_secret";
+const { JWT_SECRET } = require("../config/jwt");
 
 const signup = async (req, res) => {
   try {
@@ -30,7 +29,7 @@ const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
 
-    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: "1d" });
 
     res.json({ token, user: { id: user._id, name: user.name, role: user.role } });
   } catch (error) {
@@ -38,5 +37,5 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = {signup, login};
+module.exports = { signup, login };
 

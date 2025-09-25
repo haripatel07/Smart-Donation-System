@@ -1,0 +1,117 @@
+API Endpoints - Smart Donation System
+
+Base URL (development): http://localhost:5000/api
+
+Auth
+- POST /auth/signup
+  - Description: Register a new user.
+  - Body: { name, email, password, role? }
+  - Response: 201 { msg }
+  - Public
+
+- POST /auth/login
+  - Description: Login and receive JWT token.
+  - Body: { email, password }
+  - Response: { token, user }
+  - Public
+
+- GET /auth/me
+  - Description: Get current logged-in user details.
+  - Headers: Authorization: Bearer <token>
+  - Response: { _id, name, email, phone, address, role }
+  - Auth required
+
+- POST /auth/forgot-password
+  - Description: Reset password by providing email and newPassword
+  - Body: { email, newPassword }
+  - Response: { msg }
+  - Public
+
+- POST /auth/change-password
+  - Description: Change password for authenticated user
+  - Headers: Authorization: Bearer <token>
+  - Body: { oldPassword, newPassword }
+  - Response: { msg }
+  - Auth required
+
+Categories
+- GET /categories
+  - Description: List all categories
+  - Response: [ { _id, name } ]
+  - Public
+
+- POST /categories
+  - Description: Create category (admin)
+  - Headers: Authorization: Bearer <token>
+  - Body: { name }
+  - Response: { message, category }
+  - Admin only
+
+- PUT /categories/:id
+  - Description: Update a category (admin)
+  - Headers: Authorization: Bearer <token>
+  - Body: { name }
+  - Response: { message, category }
+  - Admin only
+
+- DELETE /categories/:id
+  - Description: Delete a category (admin)
+  - Headers: Authorization: Bearer <token>
+  - Response: { message }
+  - Admin only
+
+Donations
+- POST /donations
+  - Description: Create a donation (authenticated)
+  - Headers: Authorization: Bearer <token>
+  - Body: { item, category, quantity }
+  - Response: { message, donation }
+  - Auth required
+
+- GET /donations
+  - Description: List all donations (populates category and userId)
+  - Response: [ { donation } ]
+  - Public
+
+- GET /donations/user/:userId
+  - Description: List donations for a specific user
+  - Headers: Authorization: Bearer <token>
+  - Response: [ { donation } ]
+  - Auth required (user must match or admin)
+
+- PUT /donations/:id
+  - Description: Update donation (currently unprotected)
+  - Body: { status }
+  - Response: { message, donation }
+  - (Recommend protecting this route)
+
+- DELETE /donations/:id
+  - Description: Delete donation (currently unprotected)
+  - Response: { message }
+  - (Recommend protecting this route)
+
+- PATCH /donations/:id/status
+  - Description: Admin approves/rejects donation
+  - Headers: Authorization: Bearer <token>
+  - Body: { status: "approved" | "rejected" }
+  - Response: { donation }
+  - Admin only
+
+Users
+- PUT /users/profile
+  - Description: Update user profile (auth)
+  - Headers: Authorization: Bearer <token>
+  - Body: { name?, phone?, address? }
+  - Response: { user }
+  - Auth required
+
+Admin
+- GET /admin/users
+  - Description: List users (admin)
+  - Headers: Authorization: Bearer <token>
+  - Response: [ { users } ]
+  - Admin only
+
+Notes:
+- JWT is expected in `Authorization` header as `Bearer <token>`.
+- Error responses are not fully standardized; check response shape per route.

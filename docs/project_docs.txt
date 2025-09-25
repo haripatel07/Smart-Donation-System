@@ -1,0 +1,74 @@
+Project: Smart Donation System
+
+Overview:
+- Full-stack donation application with Node/Express backend and React (Vite) frontend.
+- Users can sign up/login, submit donations, view donations, and manage their profile. Admins can manage categories, view users, and approve/reject donations.
+
+Tech stack:
+- Backend: Node.js, Express, MongoDB (Mongoose), jsonwebtoken, bcryptjs
+- Frontend: React (Vite), React Router, Fetch API
+
+Features implemented:
+- Authentication: signup, login, JWT-based auth, change/forgot password endpoints.
+- Role-based access: admin routes protected by middleware
+- Categories: CRUD (admin) and public listing
+- Donations: create donation (authenticated), list donations, filter by user; admin can approve/reject
+- Profile: view and update user profile
+
+API Endpoints (summary):
+- POST /api/auth/signup - register
+- POST /api/auth/login - login (returns token)
+- GET /api/auth/me - returns current user (requires token)
+- POST /api/auth/forgot-password - reset password
+- POST /api/auth/change-password - change password (auth required)
+
+- GET /api/categories - list categories
+- POST /api/categories - add category (admin)
+- PUT /api/categories/:id - update category (admin)
+- DELETE /api/categories/:id - remove category (admin)
+
+- POST /api/donations - create donation (auth)
+- GET /api/donations - list all donations (public)
+- GET /api/donations/user/:userId - list donations for user (auth)
+- PUT /api/donations/:id - update donation (currently unprotected)
+- DELETE /api/donations/:id - delete donation (currently unprotected)
+- PATCH /api/donations/:id/status - approve/reject (admin)
+
+- GET /api/admin/users - list users (admin)
+- PUT /api/users/profile - update profile (auth)
+
+Environment & Setup:
+- Backend: copy `.env` from `.env.example` (not committed). Required keys: `MONGODB_URI`, `JWT_SECRET`, `PORT` (optional).
+- Frontend: run `npm install` then `npm run dev` (Vite)
+- Backend: run `npm install` then `node app.js` or `nodemon app.js`.
+
+Known Issues & Recommendations (summary of findings):
+1) JWT payload & verification: earlier code had inconsistent payload keys (e.g., `id` vs `userId`) and multiple secret fallbacks. This was centralized to `config/jwt.js`. Ensure all token creation and verification consistently use `{ userId, role }` and the same `JWT_SECRET`.
+
+2) Donation status casing mismatch: the `Donation` model enumerates `status` as ["Pending","Approved","Rejected"] (capitalized), but admin status update route accepts lower-case values `"approved"` / `"rejected"`. Normalize to one convention (recommended: lowercase values `pending/approved/rejected`) and update model and frontend accordingly.
+
+3) Unprotected mutation endpoints: several routes that modify or delete donations (`PUT /api/donations/:id`, `DELETE /api/donations/:id`) are not protected. Add `authMiddleware` and authorization checks (owner or admin) to these endpoints.
+
+4) Frontend token lifecycle: clients may retain stale JWTs after backend secret changes. App should handle `401` globally (clear token and redirect to login). Consider a centralized fetch wrapper or Axios instance with interceptors.
+
+5) Inconsistent ID fields in responses: some endpoints return `_id`, others `id`. Pick one shape and normalize (prefer `_id` from Mongo or return `id` in JSON consistently).
+
+6) CORS & origin: currently CORS is permissive for development. For production set a strict `origin` list.
+
+7) Error handling: many routes return raw Mongoose errors (or inconsistent error keys). Standardize error responses (e.g., `{ success: false, error: 'message' }`) and ensure frontend reads them properly.
+
+8) Validation & sanitization: add basic server-side validation (e.g., using express-validator or Joi) on critical routes (signup, login, donation creation).
+
+9) Tests: no automated tests detected. Add basic unit/integration tests for auth and donations routes.
+
+Next steps (recommended priority):
+- Normalize status enum (backend + frontend) and update admin control UI.
+- Protect donation update/delete endpoints and check ownership.
+- Add global fetch wrapper for Authorization header and 401 handling.
+- Add server-side input validation and standardize error responses.
+- Add a README for running locally and a `.env.example` in backend.
+
+Contact / maintenance notes:
+- Server logs include helpful console messages for JWT errors. If you change `JWT_SECRET`, remember clients must re-login to get new tokens.
+
+End of document.

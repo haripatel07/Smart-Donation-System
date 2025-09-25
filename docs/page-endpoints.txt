@@ -1,0 +1,34 @@
+Frontend Page Endpoints (Routes) - Smart Donation System
+
+Base front-end URL: http://localhost:5173/ (Vite dev server default)
+
+Public / general pages
+- / or /categories -> `CategoriesPage.jsx`  (lists categories)
+- /donations -> `DonationsPage.jsx` (lists donations)
+- /forgot-password -> `ForgotPassword.jsx`
+
+Authentication pages
+- /login -> `LoginPage.jsx` (login flow; stores token and user info)
+- /signup -> `SignupPage.jsx` (registration page)
+
+Authenticated user pages (PrivateRoute)
+- /donate -> `DonationForm.jsx` (submit donation)
+- /profile -> `ProfilePage.jsx` (view and edit profile)
+- /my-donations -> `MyDonations.jsx` (lists donations by logged-in user)
+- /change-password -> `ChangePassword.jsx`
+
+Admin pages (AdminRoute)
+- /admin/dashboard -> `AdminDashboard.jsx`
+- /admin/categories -> `AdminCategories.jsx` (manage categories)
+- /admin/donations -> `AdminDonations.jsx` (approve/reject donations)
+- /admin/users -> `AdminUsers.jsx` (list users)
+- /admin/add-category -> `AddCategoryForm.jsx`
+
+Shared components
+- `Navbar.jsx` - top navigation bar shown on most pages
+- `Footer.jsx` - site footer
+
+Notes:
+- Protected pages redirect to `/login` if user not authenticated.
+- Admin pages redirect to `/` for non-admin users.
+- The router and protection wrappers are implemented in `App.jsx` (PrivateRoute and AdminRoute).

@@ -5,6 +5,11 @@ const donationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   item: {
     type: String,
     required: true,

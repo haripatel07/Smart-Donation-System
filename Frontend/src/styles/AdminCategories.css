@@ -1,0 +1,126 @@
+/* Admin Categories Styles */
+
+.admin-categories-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.admin-categories-container h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.category-form {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.form-group {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-input[name="name"] {
+  width: 200px;
+}
+
+.form-input[name="description"] {
+  width: 300px;
+  flex: 1;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.categories-list h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.categories-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.category-item {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s;
+}
+
+.category-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.category-info strong {
+  color: #333;
+}
+
+.category-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.no-categories {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}

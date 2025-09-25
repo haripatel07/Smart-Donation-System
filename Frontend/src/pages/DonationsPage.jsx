@@ -5,34 +5,44 @@ function DonationsPage() {
   const [donations, setDonations] = useState([]);
 
   useEffect(() => {
-  fetch("http://localhost:5000/api/donations")
-    .then(res => res.json())
-    .then(data => setDonations(data));
+    fetch("http://localhost:5000/api/donations")
+      .then(res => res.json())
+      .then(data => setDonations(data));
   }, []);
 
   return (
-    <div>
-      <h2>All Donations</h2>
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Donor</th>
-            <th>Item</th>
-            <th>Category</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="donations-container">
+      <h2 className="donations-title">All Donations</h2>
+      {donations.length === 0 ? (
+        <p style={{ textAlign: "center", color: "#888" }}>No donations found.</p>
+      ) : (
+        <div className="donations-list">
           {donations.map((d) => (
-            <tr key={d._id}>
-              <td>{d.donorName}</td>
-              <td>{d.item}</td>
-              <td>{d.category}</td>
-              <td>{d.status}</td>
-            </tr>
+            <div key={d._id} className="donation-card">
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <div>
+                  <strong>{d.item}</strong>
+                  <div style={{ fontSize: "0.9em", color: "#666", marginTop: "4px" }}>
+                    Donor: {d.donorName || d.userId?.name || "Unknown"}
+                    {d.category?.name && (
+                      <span style={{ marginLeft: "12px" }}>Category: {d.category.name}</span>
+                    )}
+                    {d.quantity && d.quantity > 1 && (
+                      <span style={{ marginLeft: "12px" }}>Quantity: {d.quantity}</span>
+                    )}
+                  </div>
+                </div>
+                <div className="donation-status" style={{
+                  color: d.status === "Approved" ? "#28a745" : d.status === "Rejected" ? "#dc3545" : "#ffc107",
+                  fontWeight: "bold"
+                }}>
+                  {d.status}
+                </div>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      )}
     </div>
   );
 }

@@ -2,14 +2,37 @@ const express = require("express");
 const router = express.Router();
 const Donation = require("../models/Donation");
 const adminAuth = require("../middleware/adminAuth");
+const authMiddleware = require("../middleware/authMiddleware");
 // Create Donation
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { donorName, item, category, quantity } = req.body;
-    const donation = new Donation({ donorName, item, category, quantity });
+    const { item, category, quantity } = req.body;
+
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ error: "Unauthorized: user not authenticated" });
+    }
+
+    if (!item || !category) {
+      return res.status(400).json({ error: "Item and category are required" });
+    }
+
+    const donation = new Donation({
+      donorName: req.user.name || "Anonymous",
+      userId: req.user.id,
+      item,
+      category,
+      quantity: quantity || 1
+    });
+
     await donation.save();
     res.json({ message: "Donation added", donation });
   } catch (err) {
+    console.error("Create donation error:", err);
+    // Mongoose validation errors
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(e => e.message).join(', ');
+      return res.status(400).json({ error: `Donation validation failed: ${messages}` });
+    }
     res.status(500).json({ error: err.message });
   }
 });
@@ -17,7 +40,7 @@ router.post("/", async (req, res) => {
 // Get All Donations
 router.get("/", async (req, res) => {
   try {
-    const donations = await Donation.find().populate("category");
+    const donations = await Donation.find().populate("category").populate("userId", "name email");
     res.json(donations);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -25,9 +48,12 @@ router.get("/", async (req, res) => {
 });
 
 // Get Donations by User
-router.get("/user/:userId", async (req, res) => {
+router.get("/user/:userId", authMiddleware, async (req, res) => {
   try {
-    const donations = await Donation.find({ userId: req.params.userId });
+    if (req.user.id !== req.params.userId && req.user.role !== "admin") {
+      return res.status(403).json({ error: "Access denied" });
+    }
+    const donations = await Donation.find({ userId: req.params.userId }).populate("category");
     res.json(donations);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -61,7 +87,7 @@ router.delete("/:id", async (req, res) => {
 
 // Admin: Approve/Reject donation
 router.patch("/:id/status", adminAuth, async (req, res) => {
-  const { status } = req.body; // status should be "approved" or "rejected"
+  const { status } = req.body; 
   if (!["approved", "rejected"].includes(status)) {
     return res.status(400).json({ message: "Invalid status" });
   }

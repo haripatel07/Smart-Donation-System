@@ -1,0 +1,55 @@
+Viva Questions - Smart Donation System
+
+1. Project Overview
+- What is the purpose of the Smart Donation System? Describe the main features.
+- Which tech stack did you use and why? (Backend, Frontend, DB)
+
+2. Architecture & Design
+- Explain the high-level architecture of the project (client-server, DB, major modules).
+- How do you structure routes and controllers in the backend?
+- Why did you use JWT for authentication? Explain advantages and trade-offs.
+
+3. Authentication & Authorization
+- Explain how signup and login flows work (including password hashing and token creation).
+- What is stored in the JWT payload and how is it used for authorization?
+- How does the app enforce role-based access for admin features?
+- How are tokens validated on each request (middleware flow)?
+
+4. Backend Implementation Details
+- Explain the `Donation` model schema and its fields.
+- How do you populate references (e.g., category, user) when returning donations?
+- Where and how do you handle Mongoose validation errors? Give an example.
+- Explain how you would protect endpoints that currently lack auth checks (e.g., donation update/delete).
+
+5. Frontend Implementation Details
+- How does the frontend store and use JWTs for authenticated requests?
+- Describe how React Router is used to protect routes (PrivateRoute and AdminRoute).
+- How do you handle expired or invalid tokens on the frontend?
+- Explain how donation submissions are validated on the client and handled on the server.
+
+6. Security & Best Practices
+- Why is it important to hash passwords? Which library did you use?
+- Where should the JWT secret be stored in production? What precautions are needed?
+- What CORS considerations are there when hosting front-end and back-end separately?
+- Describe mitigation for common web security risks (XSS, CSRF, Injection) in this app.
+
+7. Error Handling & Logging
+- How are server errors propagated to the client? How could this be improved?
+- What logging is currently present and what would you add for production readiness?
+
+8. Testing & CI
+- Describe tests you would add for this project and why.
+- How would you automate deployment and testing with CI/CD?
+
+9. Scaling & Future Work
+- If the app grows to millions of users, what components need changes (DB, auth, file storage)?
+- How would you add file uploads for donation images and store them efficiently?
+- What features would you add next (notifications, search, reporting)?
+
+10. Code-specific Questions (be ready to explain code snippets)
+- Demonstrate how `authMiddleware` extracts and validates a JWT and attaches `req.user`.
+- Show how the donation creation endpoint pulls user information from `req.user` and saves a `Donation`.
+- Explain the role of `populate()` in Mongoose and where it's used in the app.
+
+
+Good luck with your viva!
