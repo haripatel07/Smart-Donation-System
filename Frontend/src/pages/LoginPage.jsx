@@ -89,17 +89,6 @@ function LoginPage({ onLogin }) {
                 value={form.email}
                 onChange={handleChange}
                 error={error && error.includes("email") ? error : ""}
-                leftIcon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M3 8L10.89 4.26C11.2187 4.10222 11.5813 4.10222 11.91 4.26L19.8 8M3 8L3 16C3 16.5304 3.21071 17.0391 3.58579 17.4142C3.96086 17.7893 4.46957 18 5 18H19C19.5304 18 20.0391 17.7893 20.4142 17.4142C20.7893 17.0391 21 16.5304 21 16V8M3 8L10.89 11.74C11.2187 11.8978 11.5813 11.8978 11.91 11.74L19.8 8"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                }
                 fullWidth
                 disabled={loading}
               />
@@ -114,17 +103,6 @@ function LoginPage({ onLogin }) {
                 value={form.password}
                 onChange={handleChange}
                 error={error && !error.includes("email") ? error : ""}
-                leftIcon={
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                    <path
-                      d="M12 15V17M6 21H18C19.1046 21 20 20.1046 20 19V13C20 11.8954 19.1046 11 18 11H6C4.89543 11 4 11.8954 4 13V19C4 20.1046 4.8954 21 6 21ZM16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11H16Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                }
                 fullWidth
                 disabled={loading}
               />

@@ -115,22 +115,28 @@
   color: var(--gray-500);
   pointer-events: none;
   z-index: 1;
+  width: 20px;
+  height: 20px;
 }
 
 .input-icon-left {
-  left: var(--spacing-3);
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .input-icon-right {
-  right: var(--spacing-3);
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .input-with-left-icon .input {
-  padding-left: calc(var(--spacing-3) + var(--spacing-8));
+  padding-left: 4rem !important;
 }
 
 .input-with-right-icon .input {
-  padding-right: calc(var(--spacing-3) + var(--spacing-8));
+  padding-right: 4rem !important;
 }
 
 /* Messages */
