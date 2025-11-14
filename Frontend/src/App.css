@@ -1,4 +1,3 @@
-/* Global App Styles */
 body {
   margin: 0;
   padding-top: 64px; /* Account for fixed navbar */
@@ -14,7 +13,6 @@ body {
   min-height: calc(100vh - 64px);
 }
 
-/* Page containers */
 .page-container {
   max-width: 1200px;
   margin: 0 auto;
